@@ -1,0 +1,39 @@
+@startuml Presale Assistance API Flow
+
+actor Client
+participant "FastAPI Backend" as Backend
+participant "Auth Service" as Auth
+participant "Knowledge Base" as KB
+participant "Document Processor" as DP
+participant "Gemini Agent" as Agent
+database "Google Drive" as Drive
+
+== Authentication ==
+Client -> Backend: Request with credentials
+Backend -> Auth: Validate credentials
+Auth --> Backend: Authentication result
+Backend --> Client: Auth token
+
+== Document Processing ==
+Client -> Backend: Upload document
+Backend -> DP: Process document
+DP -> Drive: Fetch document
+Drive --> DP: Document content
+DP -> DP: Extract and process content
+DP -> KB: Store processed document
+KB -> KB: Generate embeddings
+KB --> DP: Storage confirmation
+DP --> Backend: Processing complete
+Backend --> Client: Document processed
+
+== Query Processing ==
+Client -> Backend: Send query
+Backend -> KB: Search relevant documents
+KB -> KB: Calculate similarity
+KB --> Backend: Relevant documents
+Backend -> Agent: Generate response
+Agent -> Agent: Process context and query
+Agent --> Backend: Generated response
+Backend --> Client: Final response
+
+@enduml
