@@ -1,0 +1,20 @@
+# Core dependencies
+python-dotenv>=1.0.0
+fastapi>=0.104.0
+uvicorn>=0.23.2
+pydantic>=2.4.2
+
+# Google API dependencies
+google-auth>=2.23.3
+google-auth-oauthlib>=1.1.0
+google-api-python-client>=2.105.0
+google-cloud-aiplatform>=1.36.4
+
+# Document processing
+python-pptx>=0.6.21
+pandas>=2.1.1
+numpy>=1.26.0
+
+# Utilities
+requests>=2.31.0
+tqdm>=4.66.1
