@@ -10,7 +10,7 @@ import numpy as np
 from pptx import Presentation
 
 from app.config import settings
-from app.services.sources import DocumentSource, GoogleDriveSource
+from app.services.sources import DocumentSource, LocalFileSource
 
 logger = logging.getLogger(__name__)
 
@@ -21,9 +21,9 @@ class DocumentProcessor:
         """Initialize the document processor.
         
         Args:
-            source: Document source to use. Defaults to GoogleDriveSource if not provided.
+            source: Document source to use. Defaults to LocalFileSource if not provided.
         """
-        self.source = source or GoogleDriveSource()
+        self.source = source or LocalFileSource()
         self.data_dir = settings.DATA_DIR
         
         # Create data directory if it doesn't exist
@@ -48,7 +48,7 @@ class DocumentProcessor:
             logger.error(f"Error processing PPT file: {str(e)}")
             raise
     
-    def _extract_text_from_ppt(self, file_path: str) -> str:
+    def _extract_text_from_ppt(self, file_path: astr) -> str:
         """Extract text from a PowerPoint file."""
         presentation = Presentation(file_path)
         text_content = []
@@ -89,8 +89,7 @@ class DocumentProcessor:
         files = await self.source.list_files(source_path)
         
         # Filter for PowerPoint files
-        ppt_files = [f for f in files if f['mimeType'] == 'application/vnd.google-apps.presentation' or 
-                    f['mimeType'] == 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
+        ppt_files = [f for f in files if f['mimeType'] == 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
         
         results = {}
         for file in ppt_files:
